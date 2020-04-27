@@ -23,8 +23,9 @@ delete(){
 
 run(){
     delete
+    docker login --username=test --password=test registry.cn-shenzhen.aliyuncs.com
     docker pull $IMAGE_NAME
-    docker run --name $CONTAINER_NAME -p 8080:8080 -v /etc/localtime:/etc/localtime:ro -d $IMAGE_NAME
+    docker run --cap-add=SYS_PTRACE --name $CONTAINER_NAME -p 8080:8080 -e JAVA_OPTS='-XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -Xms1024m -Xmx1024m -Xmn256m -Xss256k -XX:SurvivorRatio=8 -XX:+UseConcMarkSweepGC' -v /etc/localtime:/etc/localtime:ro -d  $IMAGE_NAME
 }
 
 #入口
